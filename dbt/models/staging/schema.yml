@@ -1,0 +1,112 @@
+version: 2
+
+sources:
+  - name: ecommerce
+    description: Raw e-commerce data from staging tables
+    database: ecommerce_warehouse
+    schema: public
+    tables:
+      - name: staging_orders
+        description: Raw order data from API
+        columns:
+          - name: order_id
+            description: Unique order identifier
+            tests:
+              - unique
+              - not_null
+          - name: customer_id
+            description: Customer identifier (FK)
+            tests:
+              - not_null
+          - name: product_id
+            description: Product identifier (FK)
+            tests:
+              - not_null
+          - name: quantity
+            description: Number of items ordered
+            tests:
+              - not_null
+          - name: amount
+            description: Order amount in USD
+            tests:
+              - not_null
+          - name: status
+            description: Order status (completed, pending, etc.)
+      
+      - name: staging_customers
+        description: Raw customer data from API
+        columns:
+          - name: customer_id
+            description: Unique customer identifier
+            tests:
+              - unique
+              - not_null
+          - name: email
+            description: Customer email address
+          - name: city
+            description: Customer city
+          - name: country
+            description: Customer country
+      
+      - name: staging_products
+        description: Raw product data from API
+        columns:
+          - name: product_id
+            description: Unique product identifier
+            tests:
+              - unique
+              - not_null
+          - name: title
+            description: Product title
+            tests:
+              - not_null
+          - name: price
+            description: Product price in USD
+            tests:
+              - not_null
+          - name: category
+            description: Product category
+          - name: rating
+            description: Product rating (0-5)
+
+models:
+  - name: stg_orders
+    description: Staging layer for orders
+    columns:
+      - name: order_id
+        description: Unique order identifier
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Customer identifier
+      - name: product_id
+        description: Product identifier
+      - name: quantity
+        description: Order quantity
+      - name: amount
+        description: Order amount
+  
+  - name: stg_customers
+    description: Staging layer for customers
+    columns:
+      - name: customer_id
+        description: Unique customer identifier
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: Customer email
+  
+  - name: stg_products
+    description: Staging layer for products
+    columns:
+      - name: product_id
+        description: Unique product identifier
+        tests:
+          - unique
+          - not_null
+      - name: title
+        description: Product title
+      - name: price
+        description: Product price

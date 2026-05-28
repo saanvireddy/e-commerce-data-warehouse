@@ -1,0 +1,65 @@
+
+# Name your project! Project names should be lowercase and use underscores as spaces.
+name: 'ecommerce_dw'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'ecommerce'
+
+# These configurations specify where dbt should look for different types of files.
+model-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+data-paths: ["data"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Require the specific version of dbt.
+require-dbt-version: [">=1.0.0", "<2.0.0"]
+
+# Configure models
+models:
+  ecommerce_dw:
+    # Set default materialization to view
+    materialized: view
+    
+    staging:
+      # Staging models are views
+      materialized: view
+      schema: staging
+      docs:
+        node_color: "blue"
+    
+    marts:
+      # Mart models are tables
+      materialized: table
+      schema: marts
+      docs:
+        node_color: "green"
+
+# Seed configuration
+seeds:
+  ecommerce_dw:
+    schema: staging
+
+# Test configuration
+tests:
+  ecommerce_dw:
+    schema: dbt_tests
+
+# Variables configuration
+vars:
+  dbt_project_name: 'ecommerce_dw'
+  start_date: '2024-01-01'
+  
+# On-run-start and on-run-end hooks
+on-run-start:
+  - "{{ log('dbt run started at ' ~ now(), info=true) }}"
+
+on-run-end:
+  - "{{ log('dbt run completed at ' ~ now(), info=true) }}"
