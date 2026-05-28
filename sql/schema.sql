@@ -4,7 +4,7 @@
 -- ============================================================================
 
 -- Enable required extensions
-CREATE EXTENSION IF NOT EXISTS uuid-ossp;
+-- CREATE EXTENSION IF NOT EXISTS uuid-ossp;
 
 -- ============================================================================
 -- STAGING TABLES (Raw data from sources)
